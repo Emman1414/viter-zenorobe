@@ -73,11 +73,11 @@ const SetPassword = () => {
     }
   };
 
-  const handleChangeConfirmPassword = (e) => {
+  const handleChangeConfirmPasswordInput = (e) => {
     if (e.target.value === "") {
-      setShowIconPassword(false);
+      setShowIconConfirmPassword(false);
     } else {
-      setShowIconPassword(true);
+      setShowIconConfirmPassword(true);
     }
   };
 
@@ -158,7 +158,7 @@ const SetPassword = () => {
                         type={showPassword ? "text" : "password"}
                         className="!py-2"
                         name="confirm_password"
-                        onChange={(e) => handleChangePasswordInput(e)}
+                        onChange={(e) => handleChangeConfirmPasswordInput(e)}
                       />
                       {showIconConfirmPassword && (
                         <button
@@ -239,7 +239,8 @@ const SetPassword = () => {
                       onClick={() => setSuccess(true)}
                       type="sumbit"
                     >
-                      <SpinnerButton/>Set Password
+                      <SpinnerButton />
+                      Set Password
                     </button>
 
                     <Link

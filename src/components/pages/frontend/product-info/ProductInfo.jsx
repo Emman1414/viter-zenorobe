@@ -14,7 +14,9 @@ const ProductInfo = () => {
   return (
     <>
       <Header />
-      <section className="product-info !text-black">
+
+      <section className="h-[50vh] bg-black bg-[url(http://localhost/viter-zenorobe/public/img/slider-1.jpg)]"></section>
+      <section className="product-info !text-black ">
         <div className="grid grid-cols-[1fr,400px] gap-5 mt-10">
           <main>
             <div className="flex gap-5">
@@ -31,12 +33,12 @@ const ProductInfo = () => {
             </div>
           </main>
           <aside>
-            <div className="mt-24">
+            <div className="mt-24 p-5">
               <h3>{getProductInfo[0].title}</h3>
               <div className="flex gap-5 items-center">
                 <ul className="flex gap-1 my-2">
                   {Array.from(Array(getProductInfo[0].rating).keys()).map(
-                    () => ( 
+                    () => (
                       <li>
                         <Star fill={"black"} size={16} />
                       </li>

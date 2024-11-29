@@ -34,9 +34,9 @@
 }
 
 @layer base {
-  * {
+  /* * {
     @apply border border-red-500;
-  }
+  } */
   h1 {
     @apply text-[clamp(35px,_6vw,_50px)];
   }
