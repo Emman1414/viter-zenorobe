@@ -3,6 +3,7 @@ import SliderItem from "./SliderItem";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import useQueryData from "@/components/custom-hook/useQueryData";
 
 const BannerSlider = () => {
   var settings = {
@@ -17,24 +18,30 @@ const BannerSlider = () => {
     fade: true,
     waitForAnimate: true,
   };
+
+  const {
+    isFetching,
+    error,
+    status,
+    data: damit,
+  } = useQueryData(
+    `/v2/banner`, // endpoint
+    "get", // method
+    "banner" // key
+  );
+
   return (
     <section className="banner-slider">
       <Slider {...settings}>
-        <SliderItem
-          img="slider-1.jpg"
-          header="GRAPHICS TEE CAPSULE"
-          subheader="THE NEW DROP"
-        />
-        <SliderItem
-          img="slider-2.jpg"
-          header="THE QB LOUNGE TEE"
-          subheader="RESTOCKED WITH NEW COLOURS"
-        />
-        <SliderItem
-          img="slider-3.jpg"
-          header="STICKED FOOTBALL TRACKPANT"
-          subheader="LIMITED EDITION ONLINE EXCLUSIVE"
-        />
+        {damit?.count > 0 &&
+          damit.data.map((item, key) => (
+            <SliderItem
+              img={item.banner_image}
+              header={item.banner_title}
+              subheader={item.banner_excerpt}
+              key={key}
+            />
+          ))}
       </Slider>
     </section>
   );

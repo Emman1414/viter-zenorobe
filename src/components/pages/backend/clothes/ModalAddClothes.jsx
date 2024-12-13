@@ -12,30 +12,98 @@ import {
 } from "@/components/helpers/FormInputs";
 import * as Yup from "Yup";
 import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
-import { imgPath } from "@/components/helpers/functions-general";
 import { StoreContext } from "../store/storeContext";
-import { setIsAdd } from "../store/storeAction";
+import {
+  setIsAdd,
+  setMessage,
+  setSuccess,
+  setValidate,
+} from "../store/storeAction";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useQueryData from "@/components/custom-hook/useQueryData";
+import { queryData } from "@/components/helpers/queryData";
+import { imgPath } from "@/components/helpers/functions-general";
 
 const ModalAddClothes = ({ itemEdit }) => {
   const { dispatch } = React.useContext(StoreContext);
-  const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto("");
+  
+  const { uploadPhoto, handleChangePhoto, photo } =
+    useUploadPhoto("/v2/upload-photo");
+  
+  const { uploadImahe, handleChangeImahe, imahe } =
+    useUploadPhoto("/v2/upload-photo");
+
+  
+  const [value, setValue] = React.useState("");
+
+  const queryClient = useQueryClient();
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   const handleClose = () => {
     dispatch(setIsAdd(false));
+    setIsAdd(null);
   };
 
-  const initVal = {
-    shirt_title: itemEdit ? itemEdit.shirt_title : "",
-    shirt_price: itemEdit ? itemEdit.shirt_price : "",
-    shirt_category: itemEdit ? itemEdit.shirt_category : "",
-  };
-  const yupSchema = Yup.object({
-    shirt_title: Yup.string().required("Required"),
-    shirt_price: Yup.string().required("Required"),
-    shirt_category: Yup.string().required("Required"),
+    const {
+      Fetch,
+      Load,
+      myStatus,
+      data: categ,
+    } = useQueryData(
+      `/v2/category`, // endpoint
+      "get", // method
+      "category" // key
+    );
+
+  const {
+    isFetching,
+    error,
+    status,
+    data: damit,
+  } = useQueryData(
+    `/v2/clothes`, // endpoint
+    "get", // method
+    "clothes" // key
+  );
+
+  const mutation = useMutation({
+    mutationFn: (values) =>
+      queryData(
+        itemEdit ? `/v2/clothes/${itemEdit.clothes_aid}` : `/v2/clothes`,
+        itemEdit ? "put" : "post",
+        values
+      ),
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["clothes"],
+      });
+
+      // show error box
+      if (data.success) {
+        dispatch(setIsAdd(false));
+        dispatch(setSuccess(true));
+        dispatch(setMessage("Record Successfully Updated"));
+      } else {
+        dispatch(setValidate(true));
+        dispatch(setMessage(data.error));
+      }
+    },
   });
 
-  console.log(itemEdit);
+  const initVal = {
+    clothes_title: itemEdit ? itemEdit.clothes_title : "",
+    clothes_price: itemEdit ? itemEdit.clothes_price : "",
+    clothes_category_id: itemEdit ? itemEdit.clothes_category_id : "",
+  };
+  const yupSchema = Yup.object({
+    clothes_title: Yup.string().required("Required"),
+    clothes_price: Yup.string().required("Required"),
+    clothes_category_id: Yup.string().required("Required"),
+  });
 
   return (
     <>
@@ -52,7 +120,25 @@ const ModalAddClothes = ({ itemEdit }) => {
             initialValues={initVal}
             validationSchema={yupSchema}
             onSubmit={async (values) => {
-              console.log(values);
+              mutation.mutate({
+                ...values,
+                clothes_image1:
+                  (itemEdit?.clothes_image1 === "" && photo) ||
+                  (!photo && "") ||
+                  (photo === undefined && "") ||
+                  (photo && itemEdit?.clothes_image1 !== photo?.name)
+                    ? photo?.name || ""
+                    : itemEdit?.clothes_image1 || "",
+                clothes_image2:
+                  (itemEdit?.clothes_image2 === "" && imahe) ||
+                  (!imahe && "") ||
+                  (imahe === undefined && "") ||
+                  (imahe && itemEdit?.clothes_image2 !== imahe?.name)
+                    ? imahe?.name || ""
+                    : itemEdit?.clothes_image2 || "",
+              });
+              uploadPhoto();
+              uploadImahe();
             }}
           >
             {(props) => {
@@ -64,13 +150,16 @@ const ModalAddClothes = ({ itemEdit }) => {
                         <InputText
                           label="Title"
                           type="text"
-                          name="shirt_title"
+                          name="clothes_title"
+                          onChange={handleChange}
                         />
                       </div>
 
-                      <div className="input-wrap relative  group input-photo-wrap h-[150px] ">
-                        <label htmlFor="">Photo</label>
-                        {itemEdit === null ? (
+                      <div className="input-wrap relative  group input-photo-wrap h-[150px] mb-5 ">
+                        <label htmlFor="" className="py-3">
+                          Image 1 (optional)
+                        </label>
+                        {itemEdit === null && photo === null ? (
                           <div className="w-full border border-line rounded-md flex justify-center items-center flex-col h-full">
                             <ImagePlusIcon
                               size={50}
@@ -84,14 +173,15 @@ const ModalAddClothes = ({ itemEdit }) => {
                         ) : (
                           <img
                             src={
-                              itemEdit === null
+                              photo
                                 ? URL.createObjectURL(photo) // preview
-                                : imgPath + "/" + itemEdit?.shirt_image // check db
+                                : imgPath + "/" + itemEdit?.clothes_image1 // check db
                             }
                             alt="employee photo"
                             className={`group-hover:opacity-30 duration-200 relative object-cover h-full w-full  m-auto `}
                           />
                         )}
+
                         <InputPhotoUpload
                           name="photo"
                           type="file"
@@ -104,21 +194,72 @@ const ModalAddClothes = ({ itemEdit }) => {
                         />
                       </div>
 
+                      {/* ------------------------------------------------------------------------------ */}
+                      <div className="input-wrap relative  group input-photo-wrap h-[150px] ">
+                        <label htmlFor="" className="py-3">
+                          Image 2 (optional)
+                        </label>
+                        {itemEdit === null && imahe === null ? (
+                          <div className="w-full border border-line rounded-md flex justify-center items-center flex-col h-full">
+                            <ImagePlusIcon
+                              size={50}
+                              strokeWidth={1}
+                              className="opacity-20 group-hover:opacity-50 transition-opacity"
+                            />
+                            <small className="opacity-20 group-hover:opacity-50 transition-opacity">
+                              Upload Photo
+                            </small>
+                          </div>
+                        ) : (
+                          <img
+                            src={
+                              imahe
+                                ? URL.createObjectURL(imahe) // preview
+                                : imgPath + "/" + itemEdit?.clothes_image2 // check db
+                            }
+                            alt="employee photo"
+                            className={`group-hover:opacity-30 duration-200 relative object-cover h-full w-full  m-auto `}
+                          />
+                        )}
+
+                        <InputPhotoUpload
+                          name="imahe"
+                          type="file"
+                          id="imahe"
+                          accept="image/*"
+                          title="Upload photo"
+                          onChange={(e) => handleChangeImahe(e)}
+                          onDrop={(e) => handleChangeImahe(e)}
+                          className={`opacity-0 absolute top-0 right-0 bottom-0 left-0 rounded-full  m-auto cursor-pointer w-full h-full`}
+                        />
+                      </div>
+
                       <div className="input-wrap mt-8">
                         <InputText
                           label="Price"
                           type="text"
-                          name="shirt_price"
+                          name="clothes_price"
                         />
                       </div>
+
                       <div className="input-wrap">
-                        <InputSelect label="Category" name="shirt_category">
-                          <option value="" hidden>
-                            Select Category
-                          </option>
-                          <option value="T Shirt">T Shirt</option>
-                          <option value="Jacket">Jacket</option>
-                          <option value="Pants">Pants</option>
+                        <InputSelect
+                          label="Clothes Category"
+                          name="clothes_category_id"
+                          
+                        >
+                          <option value="" hidden></option>
+                          {categ?.data.map((item, key) => {
+                            return (
+                              <>
+                                {item.category_is_active === 1 && (
+                                  <option key={key} value={item.category_aid}>
+                                    {item.category_title}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })}
                         </InputSelect>
                       </div>
                     </div>

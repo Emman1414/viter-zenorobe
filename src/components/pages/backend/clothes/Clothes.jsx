@@ -34,7 +34,7 @@ const Clothes = () => {
                   Add New
                 </button>
               </div>
-              <FoodTable setItemEdit={setItemEdit} />
+              <FoodTable setItemEdit={setItemEdit} itemEdit={itemEdit} />
             </div>
             <Footer />
           </main>
@@ -43,8 +43,10 @@ const Clothes = () => {
 
       {store.validate && <ModalValidation />}
       {store.error && <ModalError />}
-      {store.success && <ToastSuccess />}
-      {store.isAdd && <ModalAddClothes itemEdit={itemEdit} />}
+      {store.setSuccess && <ToastSuccess />}
+      {store.isAdd && (
+        <ModalAddClothes itemEdit={itemEdit} setItemEdit={setItemEdit} />
+      )}
     </>
   );
 };

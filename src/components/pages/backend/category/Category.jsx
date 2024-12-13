@@ -1,4 +1,3 @@
-
 import { Plus } from "lucide-react";
 import React from "react";
 import Footer from "../partials/Footer";
@@ -16,8 +15,11 @@ import { setIsAdd } from "../store/storeAction";
 const Category = () => {
   const { dispatch, store } = React.useContext(StoreContext);
 
+  const [isCategoryEdit, setIsCategoryEdit] = React.useState(null);
+
   const handleAdd = () => {
     dispatch(setIsAdd(true));
+    setIsCategoryEdit(null);
   };
   return (
     <>
@@ -25,7 +27,7 @@ const Category = () => {
         <div className="layout-division">
           <SideNavigation menu="category" />
           <main>
-            <Header title="Category" subtitle="Manage Kiosk Category" />
+            <Header title="Category" subtitle="Manage Clothing Category" />
             <div className="p-8">
               <div className="flex justify-between items-center ">
                 <SearchBar />
@@ -35,7 +37,10 @@ const Category = () => {
                   Add New
                 </button>
               </div>
-              <CategoryTable />
+              <CategoryTable
+                setIsCategoryEdit={setIsCategoryEdit}
+                isCategoryEdit={isCategoryEdit}
+              />
             </div>
             <Footer />
           </main>
@@ -47,7 +52,9 @@ const Category = () => {
       {store.success && <ToastSuccess />}
       {/* <SpinnerWindow /> */}
 
-      {store.isAdd && <ModalAddCategory />}
+      {store.isAdd && (
+        <ModalAddCategory setIsCategoryEdit={setIsCategoryEdit} />
+      )}
     </>
   );
 };

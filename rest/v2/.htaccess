@@ -1,0 +1,28 @@
+RewriteEngine On
+# use for authentication
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+Header set Access-Control-Allow-Origin *
+ 
+
+
+RewriteRule ^category$ controllers/category/category.php [L]
+RewriteRule ^category/([0-9]+)$ controllers/category/category.php?categoryid=$1 [L]
+RewriteRule ^category/active/([0-9]+)$ controllers/category/active.php?categoryid=$1 [L]
+RewriteRule ^category/search$ controllers/category/search.php [L]
+RewriteRule ^category/page/([0-9]+)$ controllers/category/page.php?start=$1 [L]
+
+RewriteRule ^clothes$ controllers/clothes/clothes.php [L]
+RewriteRule ^clothes/([0-9]+)$ controllers/clothes/clothes.php?clothesid=$1 [L]
+RewriteRule ^clothes/active/([0-9]+)$ controllers/clothes/active.php?clothesid=$1 [L]
+RewriteRule ^clothes/search$ controllers/clothes/search.php [L]
+RewriteRule ^clothes/page/([0-9]+)$ controllers/clothes/page.php?start=$1 [L]
+
+RewriteRule ^banner$ controllers/banner/banner.php [L]
+RewriteRule ^banner/([0-9]+)$ controllers/banner/banner.php?bannerid=$1 [L]
+RewriteRule ^banner/active/([0-9]+)$ controllers/banner/active.php?bannerid=$1 [L]
+RewriteRule ^banner/search$ controllers/banner/search.php [L]
+RewriteRule ^banner/page/([0-9]+)$ controllers/banner/page.php?start=$1 [L]

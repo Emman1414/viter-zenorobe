@@ -2,8 +2,10 @@ import { imgPath } from "@/components/helpers/functions-general";
 import {
   HandPlatter,
   LayoutDashboard,
+  ListCheck,
   Megaphone,
   ScrollText,
+  Shirt,
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
@@ -18,12 +20,17 @@ const SideNavigation = ({ menu }) => {
     {
       title: "Clothes",
       slug: "/admin/clothes",
-      icon: <HandPlatter size={16} />,
+      icon: <Shirt size={16} />,
     },
     {
       title: "Category",
       slug: "/admin/category",
       icon: <ScrollText size={16} />,
+    },
+    {
+      title: "Advertisement",
+      slug: "/admin/banner",
+      icon: <ListCheck size={16} />,
     },
   ];
   return (
