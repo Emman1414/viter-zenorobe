@@ -5,11 +5,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardItem from "./CardItem";
 import { newArrivalArray } from "./new-arrival-data";
+import useQueryData from "@/components/custom-hook/useQueryData";
 
 const NewArrival = () => {
-  
   const [isHover, setIsHover] = React.useState(false);
- 
 
   var settings = {
     dots: true,
@@ -38,13 +37,21 @@ const NewArrival = () => {
     ],
   };
 
+  const {
+    Fetching,
+    Loading,
+    status,
+    data: collection,
+  } = useQueryData(`/v2/clothes`, "get", "clothes");
+
   return (
     <section className="new-arrival py-10 !text-black ">
       <div className="container">
         <Slider {...settings}>
-          {newArrivalArray.map((item, key) => (
-            <CardItem item={item} key={key} />
-          ))}
+          {collection?.count > 0 &&
+            collection.data.map((item, key) => (
+              <CardItem item={item} key={key} />
+            ))}
         </Slider>
       </div>
     </section>

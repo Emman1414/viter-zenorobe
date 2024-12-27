@@ -14,12 +14,15 @@ RewriteRule ^category/([0-9]+)$ controllers/category/category.php?categoryid=$1 
 RewriteRule ^category/active/([0-9]+)$ controllers/category/active.php?categoryid=$1 [L]
 RewriteRule ^category/search$ controllers/category/search.php [L]
 RewriteRule ^category/page/([0-9]+)$ controllers/category/page.php?start=$1 [L]
+RewriteRule ^category/search$ controllers/category/search.php [L]
 
 RewriteRule ^clothes$ controllers/clothes/clothes.php [L]
 RewriteRule ^clothes/([0-9]+)$ controllers/clothes/clothes.php?clothesid=$1 [L]
 RewriteRule ^clothes/active/([0-9]+)$ controllers/clothes/active.php?clothesid=$1 [L]
 RewriteRule ^clothes/search$ controllers/clothes/search.php [L]
 RewriteRule ^clothes/page/([0-9]+)$ controllers/clothes/page.php?start=$1 [L]
+RewriteRule ^clothes/search$ controllers/clothes/search.php [L]
+
 
 RewriteRule ^banner$ controllers/banner/banner.php [L]
 RewriteRule ^banner/([0-9]+)$ controllers/banner/banner.php?bannerid=$1 [L]

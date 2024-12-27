@@ -6,10 +6,12 @@ import { imgPath } from "@/components/helpers/functions-general";
 import { Link } from "react-router-dom";
 
 const CardItem = ({ item, key }) => {
-  const title = item.title;
+  // const title = item.clothes_title;
+
+  // to={`/product/${title.toLowerCase().replaceAll(" ", "-")}`}git
 
   return (
-    <Link to={`/product/${title.toLowerCase().replaceAll(" ", "-")}`}>
+    <Link>
       <div className="new-arrival-card px-4 " key={key}>
         {/* image */}
         <div className="mb-4 relative group">
@@ -18,20 +20,20 @@ const CardItem = ({ item, key }) => {
           </p>
           {/* HOVERING */}
           <img
-            src={`${imgPath}/${item.img1}`}
+            src={`${imgPath}/${item.clothes_image1}`}
             alt=""
             className="transition-opacity group-hover:opacity-1"
           />
           <img
-            src={`${imgPath}/${item.img2}`}
+            src={`${imgPath}/${item.clothes_image2}`}
             alt=""
             className="transition-opacity absolute left-0 top-0 group-hover:opacity-0"
           />
         </div>
         {/* details */}
         <div className="text-center space-y-4">
-          <h5>{item.title}</h5>
-          <h6>${item.price} AUD</h6>
+          <h5>{item.clothes_title}</h5>
+          <h6>${item.clothes_price} AUD</h6>
           <ul className="flex gap-5 justify-center">
             <li className="tooltip" data-tooltip="in stock">
               29

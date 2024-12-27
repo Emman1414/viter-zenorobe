@@ -1,39 +1,38 @@
+import { ImagePlusIcon, X } from "lucide-react";
 import React from "react";
 import ModalWrapper from "../partials/modals/ModalWrapper";
-import { ImagePlusIcon, X } from "lucide-react";
 import SpinnerButton from "../partials/spinners/SpinnerButton";
 
-import { Form, Formik } from "formik";
+import useQueryData from "@/components/custom-hook/useQueryData";
+import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
 import {
   InputPhotoUpload,
   InputSelect,
-  InputText,
-  InputTextArea,
+  InputText
 } from "@/components/helpers/FormInputs";
+import { imgPath } from "@/components/helpers/functions-general";
+import { queryData } from "@/components/helpers/queryData";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Form, Formik } from "formik";
+import { useInView } from "react-intersection-observer";
 import * as Yup from "Yup";
-import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
-import { StoreContext } from "../store/storeContext";
 import {
   setIsAdd,
   setMessage,
   setSuccess,
   setValidate,
 } from "../store/storeAction";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useQueryData from "@/components/custom-hook/useQueryData";
-import { queryData } from "@/components/helpers/queryData";
-import { imgPath } from "@/components/helpers/functions-general";
+import { StoreContext } from "../store/storeContext";
 
 const ModalAddClothes = ({ itemEdit }) => {
-  const { dispatch } = React.useContext(StoreContext);
-  
+  const { store, dispatch } = React.useContext(StoreContext);
+
   const { uploadPhoto, handleChangePhoto, photo } =
     useUploadPhoto("/v2/upload-photo");
-  
+
   const { uploadImahe, handleChangeImahe, imahe } =
     useUploadPhoto("/v2/upload-photo");
 
-  
   const [value, setValue] = React.useState("");
 
   const queryClient = useQueryClient();
@@ -47,16 +46,16 @@ const ModalAddClothes = ({ itemEdit }) => {
     setIsAdd(null);
   };
 
-    const {
-      Fetch,
-      Load,
-      myStatus,
-      data: categ,
-    } = useQueryData(
-      `/v2/category`, // endpoint
-      "get", // method
-      "category" // key
-    );
+  const {
+    Fetch,
+    Load,
+    myStatus,
+    data: categ,
+  } = useQueryData(
+    `/v2/category`, // endpoint
+    "get", // method
+    "category" // key
+  );
 
   const {
     isFetching,
@@ -246,7 +245,6 @@ const ModalAddClothes = ({ itemEdit }) => {
                         <InputSelect
                           label="Clothes Category"
                           name="clothes_category_id"
-                          
                         >
                           <option value="" hidden></option>
                           {categ?.data.map((item, key) => {
@@ -265,7 +263,7 @@ const ModalAddClothes = ({ itemEdit }) => {
                     </div>
                     <div className="form-action flex p-4 justify-end gap-3">
                       <button className="btn btn-add" type="submit">
-                        <SpinnerButton /> Save
+                        {mutation.isPending ? <SpinnerButton /> : "Save"}
                       </button>
                       <button
                         className="btn btn-cancel"
