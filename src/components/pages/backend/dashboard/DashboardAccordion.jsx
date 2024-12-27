@@ -1,12 +1,13 @@
 import React from "react";
 import { clothes } from "../clothes-data";
 import { ChevronDown, Dot } from "lucide-react";
+import IconNoData from "../partials/IconNoData";
 
-const DashboardAccordion = ({ title, filterby }) => {
+const DashboardAccordion = ({ title, resultCloth, item, clothItems }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const getCardDetails = clothes.filter(
-    (item) => item.shirt_category === filterby
-  );
+  // const getCardDetails = clothes.filter(
+  //   (item) => item.shirt_category === filterby
+  // );
 
   const handleToggleOpen = () => setIsOpen((prev) => !prev);
 
@@ -30,16 +31,19 @@ const DashboardAccordion = ({ title, filterby }) => {
           }`}
         >
           <ul className="space-y-3 py-4 px-2">
-            {getCardDetails.map((item, key) => (
-              <li className="flex items-center" key={key}>
-                <Dot
-                  size={30}
-                  strokeWidth={5}
-                  stroke={item.shirt_is_active ? "text-success" : "text-gray"}
-                />
-                {item.shirt_title}
-              </li>
-            ))}
+            {clothItems?.length == 0 && <IconNoData />}
+            {clothItems?.length > 0 &&
+              clothItems.map((item, key) => (
+                <li className="flex items-center" key={key}>
+                  <Dot
+                    size={30}
+                    className={`${
+                      item.clothes_is_active == 1 ? "text-success" : "text-alert"
+                    }`}
+                  />
+                  {item.clothes_title}
+                </li>
+              ))}
           </ul>
         </div>
       </div>

@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import CardItem from "./CardItem";
 import { newArrivalArray } from "./new-arrival-data";
 import useQueryData from "@/components/custom-hook/useQueryData";
+import { Link } from "react-router-dom";
 
 const NewArrival = () => {
   const [isHover, setIsHover] = React.useState(false);
@@ -50,7 +51,7 @@ const NewArrival = () => {
         <Slider {...settings}>
           {collection?.count > 0 &&
             collection.data.map((item, key) => (
-              <CardItem item={item} key={key} />
+                <CardItem item={item} key={key} />
             ))}
         </Slider>
       </div>

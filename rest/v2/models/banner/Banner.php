@@ -15,6 +15,7 @@ class Banner
     public $lastInsertedId;
     public $banner_start;
     public $banner_total;
+    public $banner_search;
 
 
     public $tblBanner;
@@ -182,6 +183,61 @@ class Banner
     ]);
     } catch (PDOException $ex) {
     $query = false;
+    }
+    return $query;
+  }
+
+  public function search()
+  {
+    try {
+      $sql = "select * from {$this->tblBanner} ";
+      $sql .= "where banner_title like :banner_title ";
+      $sql .= "order by banner_is_active desc, ";
+      $sql .= "banner_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "banner_title" => "%{$this->banner_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+  public function filterActive()
+  {
+    try {
+      $sql = "select * from {$this->tblBanner} ";
+      $sql .= "where banner_is_active like :banner_is_active ";
+      $sql .= "order by banner_is_active desc, ";
+      $sql .= "banner_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "banner_is_active" => "%{$this->banner_is_active}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+
+
+  public function filterActiveSearch()
+  {
+    try {
+      $sql = "select * from {$this->tblBanner} ";
+      $sql .= "where banner_is_active like :banner_is_active ";
+      $sql .= "and banner_title like :banner_title ";
+      $sql .= "order by banner_is_active desc, ";
+      $sql .= "banner_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "banner_is_active" => "$this->banner_is_active",
+        "banner_title" => "%{$this->banner_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
     }
     return $query;
   }

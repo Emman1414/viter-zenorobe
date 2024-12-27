@@ -14,7 +14,6 @@ import { setIsAdd } from "../store/storeAction";
 
 const Category = () => {
   const { dispatch, store } = React.useContext(StoreContext);
-
   const [isCategoryEdit, setIsCategoryEdit] = React.useState(null);
 
   const handleAdd = () => {
@@ -30,8 +29,7 @@ const Category = () => {
             <Header title="Category" subtitle="Manage Clothing Category" />
             <div className="p-8">
               <div className="flex justify-between items-center ">
-                <SearchBar />
-
+                <div></div>
                 <button className="btn btn-add" onClick={handleAdd}>
                   <Plus size={16} />
                   Add New
@@ -53,7 +51,10 @@ const Category = () => {
       {/* <SpinnerWindow /> */}
 
       {store.isAdd && (
-        <ModalAddCategory setIsCategoryEdit={setIsCategoryEdit} />
+        <ModalAddCategory
+          setIsCategoryEdit={setIsCategoryEdit}
+          isCategoryEdit={isCategoryEdit}
+        />
       )}
     </>
   );

@@ -4,8 +4,21 @@ import { imgPath } from "../../../helpers/functions-general";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardItem from "./CardItem";
+import useQueryData from "@/components/custom-hook/useQueryData";
 
 const WinterCollection = () => {
+  const {
+    isFetch,
+    isLoad,
+    error,
+    data: collection,
+    status,
+  } = useQueryData(
+    `/v2/clothes`, // end point
+    "get", // da method
+    "clothes" // da key
+  );
+
   const winterCollectionArray = [
     {
       img1: "na-card-a1.jpg",
@@ -65,13 +78,16 @@ const WinterCollection = () => {
       },
     ],
   };
+
+
   return (
     <section className="new-arrival py-10 !text-black ">
       <div className="container">
         <Slider {...settings}>
-          {winterCollectionArray.map((item, key) => (
-            <CardItem item={item} key={key} />
-          ))}
+          {collection?.count > 0 &&
+            collection?.data.map((item, key) => (
+              <CardItem item={item} key={key} />
+            ))}
         </Slider>
       </div>
     </section>

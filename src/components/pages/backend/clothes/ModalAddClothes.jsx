@@ -8,7 +8,7 @@ import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
 import {
   InputPhotoUpload,
   InputSelect,
-  InputText
+  InputText,
 } from "@/components/helpers/FormInputs";
 import { imgPath } from "@/components/helpers/functions-general";
 import { queryData } from "@/components/helpers/queryData";
@@ -17,6 +17,7 @@ import { Form, Formik } from "formik";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "Yup";
 import {
+  setError,
   setIsAdd,
   setMessage,
   setSuccess,
@@ -68,27 +69,29 @@ const ModalAddClothes = ({ itemEdit }) => {
     "clothes" // key
   );
 
-  const mutation = useMutation({
+const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        itemEdit ? `/v2/clothes/${itemEdit.clothes_aid}` : `/v2/clothes`,
-        itemEdit ? "put" : "post",
+        itemEdit
+          ? `/v2/clothes/${itemEdit.clothes_aid}`
+          : "/v2/clothes",
+        itemEdit ? "PUT" : "POST",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({
-        queryKey: ["clothes"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["clothes"] });
 
       // show error box
-      if (data.success) {
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+        dispatch(setSuccess(false));
+      } else {
+        console.log("Success");
         dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
-        dispatch(setMessage("Record Successfully Updated"));
-      } else {
-        dispatch(setValidate(true));
-        dispatch(setMessage(data.error));
+        dispatch(setMessage("Successful!"));
       }
     },
   });
@@ -97,6 +100,8 @@ const ModalAddClothes = ({ itemEdit }) => {
     clothes_title: itemEdit ? itemEdit.clothes_title : "",
     clothes_price: itemEdit ? itemEdit.clothes_price : "",
     clothes_category_id: itemEdit ? itemEdit.clothes_category_id : "",
+
+    clothes_title_old: itemEdit ? itemEdit.clothes_title : "",
   };
   const yupSchema = Yup.object({
     clothes_title: Yup.string().required("Required"),
@@ -143,7 +148,7 @@ const ModalAddClothes = ({ itemEdit }) => {
             {(props) => {
               return (
                 <Form>
-                  <div className="modal-form h-full max-h-[calc(100vh-56px)] grid grid-rows-[1fr_auto]">
+                  <div className="modal-form h-full max-h-[calc(100vh-56px)] grid grid-rows-[1fr_auto] ">
                     <div className="form-wrapper p-4 max-h-[85vh] h-full overflow-y-auto custom-scroll">
                       <div className="input-wrap">
                         <InputText

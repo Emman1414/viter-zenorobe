@@ -14,6 +14,7 @@ import * as Yup from "Yup";
 import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
 import { StoreContext } from "../store/storeContext";
 import {
+  setError,
   setIsAdd,
   setMessage,
   setSuccess,
@@ -41,28 +42,27 @@ const ModalAddBanner = ({ itemEdit }) => {
     setIsAdd(null);
   };
 
-
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        itemEdit ? `/v2/banner/${itemEdit.banner_aid}` : `/v2/banner`,
-        itemEdit ? "put" : "post",
+        itemEdit ? `/v2/banner/${itemEdit.banner_aid}` : "/v2/banner",
+        itemEdit ? "PUT" : "POST",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({
-        queryKey: ["banner"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["banner"] });
 
       // show error box
-      if (data.success) {
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+        dispatch(setSuccess(false));
+      } else {
+        console.log("Success");
         dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
-        dispatch(setMessage("Record Successfully Updated"));
-      } else {
-        dispatch(setValidate(true));
-        dispatch(setMessage(data.error));
+        dispatch(setMessage("Successful!"));
       }
     },
   });
@@ -70,6 +70,8 @@ const ModalAddBanner = ({ itemEdit }) => {
   const initVal = {
     banner_title: itemEdit ? itemEdit.banner_title : "",
     banner_excerpt: itemEdit ? itemEdit.banner_excerpt : "",
+
+    banner_title_old: itemEdit ? itemEdit.banner_title : "",
   };
   const yupSchema = Yup.object({
     banner_title: Yup.string().required("Required"),
@@ -161,8 +163,6 @@ const ModalAddBanner = ({ itemEdit }) => {
                           name="banner_excerpt"
                         />
                       </div>
-
-                      
                     </div>
                     <div className="form-action flex p-4 justify-end gap-3">
                       <button className="btn btn-add" type="submit">

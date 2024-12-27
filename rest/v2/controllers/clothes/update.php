@@ -22,9 +22,10 @@ if (array_key_exists("clothesid", $_GET)) {
   checkId($clothes->clothes_aid);
 
 //checks current data to avoid same entries from being updated
-// $clothes_title_old = checkIndex($data, 'clothes_title_old');
-// compareTitle($clothes, $clothes_title_old, $clothes->clothes_title);
-// checkId($clothes->clothes_aid);
+$clothes_title_old = checkIndex($data, 'clothes_title_old');
+
+compareName($clothes, $clothes_title_old, $clothes->clothes_title);
+checkId($clothes->clothes_aid);
 
   // update
   $query = checkUpdate($clothes);

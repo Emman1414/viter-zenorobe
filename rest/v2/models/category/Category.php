@@ -13,6 +13,7 @@ class Category
     public $lastInsertedId;
     public $category_start;
     public $category_total;
+    public $category_search;
 
 
     public $tblCategory;
@@ -174,7 +175,60 @@ class Category
     return $query;
   }
 
+  public function search()
+  {
+    try {
+      $sql = "select * from {$this->tblCategory} ";
+      $sql .= "where category_title like :category_title ";
+      $sql .= "order by category_is_active desc, ";
+      $sql .= "category_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "category_title" => "%{$this->category_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
 
+  public function filterActive()
+  {
+    try {
+      $sql = "select * from {$this->tblCategory} ";
+      $sql .= "where category_is_active like :category_is_active ";
+      $sql .= "order by category_is_active desc, ";
+      $sql .= "category_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "category_is_active" => "%{$this->category_is_active}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+
+
+  public function filterActiveSearch()
+  {
+    try {
+      $sql = "select * from {$this->tblCategory} ";
+      $sql .= "where category_is_active like :category_is_active ";
+      $sql .= "and category_title like :category_title ";
+      $sql .= "order by category_is_active desc, ";
+      $sql .= "category_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "category_is_active" => "$this->category_is_active",
+        "category_title" => "%{$this->category_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
 
 }
 

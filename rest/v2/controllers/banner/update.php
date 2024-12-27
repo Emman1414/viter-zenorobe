@@ -20,9 +20,10 @@ if (array_key_exists("bannerid", $_GET)) {
   checkId($banner->banner_aid);
 
 //checks current data to avoid same entries from being updated
-// $banner_title_old = checkIndex($data, 'banner_title_old');
-// compareTitle($banner, $banner_title_old, $banner->banner_title);
-// checkId($banner->banner_aid);
+$banner_title_old = checkIndex($data, 'banner_title_old');
+
+compareName($banner, $banner_title_old, $banner->banner_title);
+checkId($banner->banner_aid);
 
   // update
   $query = checkUpdate($banner);

@@ -19,7 +19,7 @@ $clothes->clothes_created = date("Y-m-d H:i:s");
 $clothes->clothes_datetime = date("Y-m-d H:i:s");
 
 //checks newly added data if it already exists
-// isNameExist($clothes, $clothes->clothes_title);
+isNameExist($clothes, $clothes->clothes_title);
 
 
 $query = checkCreate($clothes);

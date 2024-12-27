@@ -9,6 +9,7 @@ import { setIsAdd } from "../store/storeAction";
 import { StoreContext } from "../store/storeContext";
 import FoodTable from "./ClothesTable";
 import ModalAddClothes from "./ModalAddClothes";
+import ModalValidation from "../partials/modals/ModalValidation";
 
 const Clothes = () => {
   const { dispatch, store } = React.useContext(StoreContext);

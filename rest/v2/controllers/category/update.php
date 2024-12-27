@@ -18,9 +18,10 @@ if (array_key_exists("categoryid", $_GET)) {
   checkId($category->category_aid);
 
 //checks current data to avoid same entries from being updated
-// $category_title_old = checkIndex($data, 'category_title_old');
-// compareTitle($category, $category_title_old, $category->category_title);
-// checkId($category->category_aid);
+$category_title_old = checkIndex($data, 'category_title_old');
+
+compareName($category, $category_title_old, $category->category_title);
+checkId($category->category_aid);
 
   // update
   $query = checkUpdate($category);

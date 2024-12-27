@@ -17,7 +17,7 @@ $banner->banner_created = date("Y-m-d H:i:s");
 $banner->banner_datetime = date("Y-m-d H:i:s");
 
 //checks newly added data if it already exists
-// isNameExist($banner, $banner->banner_title);
+isNameExist($banner, $banner->banner_title);
 
 
 $query = checkCreate($banner);

@@ -73,6 +73,8 @@ const ModalAddCategory = ({ isCategoryEdit }) => {
 
   const initVal = {
     category_title: isCategoryEdit ? isCategoryEdit.category_title : "",
+
+    category_title_old: isCategoryEdit ? isCategoryEdit.category_title : "",
   };
   const yupSchema = Yup.object({
     category_title: Yup.string().required("Required"),
@@ -149,7 +151,7 @@ const ModalAddCategory = ({ isCategoryEdit }) => {
                     </div>
                     <div className="form-action flex p-4 justify-end gap-3">
                       <button className="btn btn-add" type="submit">
-                        <SpinnerButton /> Save
+                        {mutation.isPending ? <SpinnerButton /> : "Save"}
                       </button>
                       <button
                         className="btn btn-cancel"

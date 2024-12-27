@@ -8,10 +8,10 @@ import { Link } from "react-router-dom";
 const CardItem = ({ item, key }) => {
   // const title = item.clothes_title;
 
-  // to={`/product/${title.toLowerCase().replaceAll(" ", "-")}`}git
+  // to={`/product/${title.toLowerCase().replaceAll(" ", "-")}`}
 
   return (
-    <Link>
+    <Link to={`/product-info/${item.clothes_title.replaceAll(" ","-")}`}>
       <div className="new-arrival-card px-4 " key={key}>
         {/* image */}
         <div className="mb-4 relative group">

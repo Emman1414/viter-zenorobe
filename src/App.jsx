@@ -21,7 +21,7 @@ const App = () => {
         <Router>
           <Routes>
             <Route index element={<Home />} />
-            <Route path="/product/:slug" element={<ProductInfo />} />
+            <Route path="/product-info/:slug" element={<ProductInfo />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/clothes" element={<Clothes />} />
             <Route path="/admin/category" element={<Category />} />
