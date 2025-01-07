@@ -8,6 +8,7 @@ import { setIsRestore } from "@/components/store/storeAction";
 import { FaTrashRestore } from "react-icons/fa";
 import SpinnerButton from "../spinners/SpinnerButton";
 import { StoreContext } from "../../store/storeContext";
+import { setError, setMessage, setSuccess } from "../../store/storeAction";
 
 const ModalRestore = ({ setIsArchive, mysqlEndpoint, queryKey, item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -25,10 +26,12 @@ const ModalRestore = ({ setIsArchive, mysqlEndpoint, queryKey, item }) => {
       // dispatch(setIsDelete(false));
 
       if (!data.success) {
-        console.log("May error!");
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+        dispatch(setIsRestore(false));
       } else {
         dispatch(setIsRestore(false));
-        console.log("Naysuu!");
+        dispatch(setSuccess(true));
       }
     },
   });

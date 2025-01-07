@@ -3,13 +3,13 @@ import React from "react";
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import ModalError from "../partials/modals/ModalError";
-import SearchBar from "../partials/SearchBar";
+import ModalValidation from "../partials/modals/ModalValidation";
 import SideNavigation from "../partials/SideNavigation";
 import { setIsAdd } from "../store/storeAction";
 import { StoreContext } from "../store/storeContext";
-import FoodTable from "./ClothesTable";
+import ClothesTable from "./ClothesTable";
 import ModalAddClothes from "./ModalAddClothes";
-import ModalValidation from "../partials/modals/ModalValidation";
+import ToastSuccess from "../partials/ToastSuccess";
 
 const Clothes = () => {
   const { dispatch, store } = React.useContext(StoreContext);
@@ -34,7 +34,7 @@ const Clothes = () => {
                   Add New
                 </button>
               </div>
-              <FoodTable setItemEdit={setItemEdit} itemEdit={itemEdit} />
+              <ClothesTable setItemEdit={setItemEdit} itemEdit={itemEdit} />
             </div>
             <Footer />
           </main>
@@ -43,7 +43,7 @@ const Clothes = () => {
 
       {store.validate && <ModalValidation />}
       {store.error && <ModalError />}
-      {store.setSuccess && <ToastSuccess />}
+      {store.success && <ToastSuccess />}
       {store.isAdd && (
         <ModalAddClothes itemEdit={itemEdit} setItemEdit={setItemEdit} />
       )}

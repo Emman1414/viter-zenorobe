@@ -55,34 +55,67 @@ const ProductInfo = () => {
                   getProductInfo()[0].clothes_title}
               </h3>
               <div className="flex gap-5 items-center">
-                <ul className="flex gap-1 my-2">
+                <ul className="flex gap-1 my-2 pb-4 items-center">
                   {/* {Array.from(Array(getProductInfo()[0].rating).keys()).map(
                     () => (
-                      <li>
-                        <Star fill={"black"} size={16} />
-                      </li>
-                    )
+                  <li>
+                    <Star fill={"black"} size={16} />
+                  </li>
+                  )
                   )} */}
+
+                  {/* STATIC STARS */}
+                  {Array.from(Array(5).keys()).map((i) => (
+                    <li>
+                      <Star fill={"black"} size={16} />
+                    </li>
+                  ))}
+
+                  <p className="mb-0">
+                    <small>reviews(100)</small>
+                  </p>
                 </ul>
-                <p className="mb-0">
-                  <small>reviews(100)</small>
-                </p>
               </div>
               <h5 className="text-base font-semibold mb-4">
+                PHP <span></span>
                 {getProductInfo() !== undefined &&
                   getProductInfo()[0].clothes_price}
+                .00
               </h5>
               <p className="mb-2">SKU-123456</p>
               <div className="thumbnails flex gap-2 mb-6 flex-wrap">
                 {/* {getProductInfo() !== undefined &&
-                  getProductInfo()[0].thumbnails.map((item, key) => (
+                  getProductInfo()[0].data.map((item, key) => (
                     <img
-                      src={`${imgPath}/${item}`}
+                      src={`${imgPath}/${item.clothes_image1}`}
                       alt=""
                       className="size-[100px] rounded-md"
                       key={key}
                     />
                   ))} */}
+                {/* {Array.from(Array(5).keys()).map((i) => (
+                  <img
+                    src={`${imgPath}/clothing-5.jpg`}
+                    alt=""
+                    className="size-[100px] rounded-md"
+                  />
+                ))} */}
+
+                {result?.count > 0 &&
+                  result.data.map((item, key) => (
+                    <div>
+                      <img
+                        src={`${imgPath}/${item.clothes_image1}`}
+                        alt=""
+                        className="size-[100px] rounded-md cursor-pointer border hover:border-black"
+                      />
+                      <img
+                        src={`${imgPath}/${item.clothes_image2}`}
+                        alt=""
+                        className="size-[100px] rounded-md cursor-pointer border hover:border-black"
+                      />
+                    </div>
+                  ))}
               </div>
               <h6 className="mb-2">Select Your Size</h6>
               <ul className="sizes flex gap-2">
@@ -95,6 +128,11 @@ const ProductInfo = () => {
                       {item}
                     </li>
                   ))} */}
+                {Array.from(Array(5).keys()).map((i) => (
+                  <li className="w-[50px] h-[30px] border border-black flex justify-center items-center hover:bg-black hover:text-white text-black transition-colors cursor-pointer">
+                    <small>SIZE</small>
+                  </li>
+                ))}
               </ul>
             </div>
           </aside>

@@ -84,7 +84,7 @@ const Dashboard = () => {
                             <Tooltip />
                             <Legend />
                             <Bar
-                              dataKey="cloth_item"
+                              dataKey="clothes_price"
                               fill="#8884d8"
                               activeBar={
                                 <Rectangle fill="pink" stroke="blue" />

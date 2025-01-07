@@ -21,14 +21,13 @@ const ModalDelete = ({ setIsDelete, mysqlApiDelete, queryKey, item }) => {
       dispatch(setIsDelete(false));
 
       if (!data.success) {
-        // dispatch(setError(true));
-        // dispatch(setMessage(data.error));
-        console.log("May error!");
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+        dispatch(setSuccess(false));
       } else {
-        setIsDelete(false);
-        console.log("Naysuu!");
-        // dispatch(setSuccess(true));
-        // dispatch(setMessage(successMsg));
+        dispatch(setIsDelete(false));
+        dispatch(setSuccess(true));
+        dispatch(setMessage(successMsg));
       }
     },
   });

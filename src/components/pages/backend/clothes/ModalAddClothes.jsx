@@ -14,14 +14,12 @@ import { imgPath } from "@/components/helpers/functions-general";
 import { queryData } from "@/components/helpers/queryData";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
-import { useInView } from "react-intersection-observer";
 import * as Yup from "Yup";
 import {
   setError,
   setIsAdd,
   setMessage,
-  setSuccess,
-  setValidate,
+  setSuccess
 } from "../store/storeAction";
 import { StoreContext } from "../store/storeContext";
 
@@ -31,6 +29,7 @@ const ModalAddClothes = ({ itemEdit }) => {
   const { uploadPhoto, handleChangePhoto, photo } =
     useUploadPhoto("/v2/upload-photo");
 
+  // for SECOND IMAGE
   const { uploadImahe, handleChangeImahe, imahe } =
     useUploadPhoto("/v2/upload-photo");
 
@@ -69,12 +68,10 @@ const ModalAddClothes = ({ itemEdit }) => {
     "clothes" // key
   );
 
-const mutation = useMutation({
+  const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        itemEdit
-          ? `/v2/clothes/${itemEdit.clothes_aid}`
-          : "/v2/clothes",
+        itemEdit ? `/v2/clothes/${itemEdit.clothes_aid}` : "/v2/clothes",
         itemEdit ? "PUT" : "POST",
         values
       ),
@@ -91,7 +88,7 @@ const mutation = useMutation({
         console.log("Success");
         dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
-        dispatch(setMessage("Successful!"));
+        dispatch(setMessage("Successful"));
       }
     },
   });

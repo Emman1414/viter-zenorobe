@@ -3,14 +3,16 @@ import React from "react";
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import ModalError from "../partials/modals/ModalError";
-import ModalValidation from "../partials/modals/ModalValidation";
+
 import SearchBar from "../partials/SearchBar";
 import SideNavigation from "../partials/SideNavigation";
-import ToastSuccess from "../partials/ToastSuccess";
+
 import CategoryTable from "./CategoryTable";
 import ModalAddCategory from "./ModalAddCategory";
 import { StoreContext } from "../store/storeContext";
 import { setIsAdd } from "../store/storeAction";
+import ModalValidation from "../partials/modals/ModalValidation";
+import ToastSuccess from "../partials/ToastSuccess";
 
 const Category = () => {
   const { dispatch, store } = React.useContext(StoreContext);

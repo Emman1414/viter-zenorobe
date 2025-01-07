@@ -43,7 +43,7 @@ const Banner = () => {
 
       {store.validate && <ModalValidation />}
       {store.error && <ModalError />}
-      {store.setSuccess && <ToastSuccess />}
+      {store.success && <ToastSuccess />}
       {store.isAdd && (
         <ModalAddBanner itemEdit={itemEdit} setItemEdit={setItemEdit} />
       )}

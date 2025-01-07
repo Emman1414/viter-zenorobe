@@ -159,11 +159,19 @@ class Clothes
     try {
       $sql = "update {$this->tblClothes} set ";
       $sql .= "clothes_title = :clothes_title, ";
+      $sql .= "clothes_image1 = :clothes_image1, ";
+      $sql .= "clothes_image2 = :clothes_image2, ";
+      $sql .= "clothes_price = :clothes_price, ";
+      $sql .= "clothes_category_id = :clothes_category_id, ";
       $sql .= "clothes_datetime = :clothes_datetime ";
       $sql .= "where clothes_aid  = :clothes_aid ";
       $query = $this->connection->prepare($sql);
       $query->execute([
         "clothes_title" => $this->clothes_title,
+        "clothes_image1" => $this->clothes_image1,
+        "clothes_image2" => $this->clothes_image2,
+        "clothes_price" => $this->clothes_price,
+        "clothes_category_id" => $this->clothes_category_id,
         "clothes_datetime" => $this->clothes_datetime,
         "clothes_aid" => $this->clothes_aid
       ]);

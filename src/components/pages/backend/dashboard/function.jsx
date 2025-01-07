@@ -39,7 +39,7 @@ export const getCategoryPrices = (resultCategory, resultCloth) => {
         resultCategoryId.push(categoryItem.category_aid);
         result.push({
           ...categoryItem,
-          item_price: Number(clothItem.clothes_price),
+          item_price: Number(clothItem.clothes_prices),
         });
       }
 
